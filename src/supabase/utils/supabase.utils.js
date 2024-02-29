@@ -1,7 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 
-export const supabase = createClient("https://xkwgrhwpuwriqbxvuvys.supabase.co",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhrd2dyaHdwdXdyaXFieHZ1dnlzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDg5NjU5OTMsImV4cCI6MjAyNDU0MTk5M30.Y5quSer_kwqXyisIsl32ujrTj2XDaHOAtNhreRS-87Y")
+export const supabase = createClient(process.env.SUPABASE_URL,process.env.SUPABASE_KEY)
 
 export const signInWithGoogle = async () => {
     try {
