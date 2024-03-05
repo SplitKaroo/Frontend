@@ -1,9 +1,10 @@
 import axios from 'axios';
 
 
-export const getUserInfo = (headers)=>{
+export const getUserInfo =  (headers)=>{
     axios.get('http://localhost:3030/login', headers)
-    .then(response=>{
-        console.log(response.data);
+    .then((response)=>{
+        console.log(response.data)
+        return response.data;
     })    
 }
