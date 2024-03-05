@@ -1,29 +1,56 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import ReactDOM from 'react-dom/client';
-import { createClient } from '@supabase/supabase-js'
-import { Auth } from '@supabase/auth-ui-react'
-import {
-  // Import predefined theme
-  ThemeSupa,
-} from '@supabase/auth-ui-shared'
 import Home from './components/Home';
-// import App from './App';
+import { UserContext, UserProvider } from './contexts/UserContext';
+import App from './App';
+import {
+  createBrowserRouter,
+  RouterProvider,
+  redirect,
+} from "react-router-dom";
+import Dashboard from './components/dashboard/Dashboard';
+import axios from 'axios';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
+// const isAuthenticatedLoader = async () => {
+//   try {
+//     if (localStorage.length == 0) {
+//       return redirect("/")
+//     }
+//     const [authTokenKey, authTokenValue] = Object.entries(localStorage).find(([key, value]) => key.endsWith('-auth-token'));
+//     const authTokenValueJson = JSON.parse(authTokenValue)
 
-// const supabase = createClient("https://uroiwmpasavxoygcfpqb.supabase.co",
-// "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVyb2l3bXBhc2F2eG95Z2NmcHFiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDg0NTA0OTksImV4cCI6MjAyNDAyNjQ5OX0.Rk5q6BjwiCpNg6KfQsPPgochaCJzJlZoY3_dHXMI1Bw")
+//     const authorizationHeader = {
+//       headers: {
+//         'Authorization': `Bearer ${authTokenValueJson['access_token']}`
+//       }
+//     }
+//     const response = await axios.get('http://localhost:3030/login', authorizationHeader)
+//     if (!response || !response.data) {
+//       return redirect("/")
+//     }
+//     return null
+//   } catch (error) {
+//     console.log(error)
+//   }
+// }
 
-// const App = () => (<Auth
-//   supabaseClient={supabase}
-//   appearance={{ theme: ThemeSupa }}
-//   theme="dark"
-//   providers={['google']}
-// />)
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Home />
+  },
+  {
+    path: "/dashboard",
+    element: <Dashboard />
+  }
+])
 
 root.render(
-    <Home />
+  <UserProvider>
+    <RouterProvider router={router} />
+  </UserProvider>
 );
 
 
