@@ -3,15 +3,46 @@ import { Routes, Route, Outlet } from "react-router-dom";
 import Dashboard from './components/dashboard/Dashboard';
 import Home from './components/Home';
 import ProtectedRoute from './routes/ProtectedRoute';
-import { UserContext } from './contexts/UserContext';
+import { UserContext, UserProvider } from './contexts/UserContext';
+import {
+  createBrowserRouter,
+  RouterProvider,
+  redirect,
+} from "react-router-dom";
+
+// const router = createBrowserRouter([
+//   {
+//     path: "/",
+//     element: <Home />
+//   },
+//   {
+//     path: "/dashboard",
+//     element:(
+//       <ProtectedRoute>
+//         <Dashboard />
+//       </ProtectedRoute>
+//     ) 
+//   }
+// ])
 
 export default function App() {
-  const {currentUser} = useContext(UserContext)
+
+  const { state } = useContext(UserContext)
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Home />,
+    },
+    {
+      path: "/dashboard",
+      element: (
+        <ProtectedRoute>
+          <Dashboard />
+        </ProtectedRoute>
+      ),
+    }
+  ])
   return (
-    <Routes>
-      <Route path="signin" element={<Home/>}/>
-      {/* <ProtectedRoute path="private" component={<Dashboard/>}/> */}
-      <Route path="dashboard" render={(props)=>{currentUser?<Dashboard/>:<Home/>}}/>
-    </Routes>
+    <RouterProvider router={router} />
   )
 }
