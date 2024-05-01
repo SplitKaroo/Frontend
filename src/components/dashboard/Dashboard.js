@@ -1,18 +1,24 @@
-import React, { useContext } from 'react'
-import { UserContext } from '../../contexts/UserContext'
-import { Navigate } from 'react-router-dom'
-import { signOutWithGoogle } from '../../supabase/utils/supabase.utils'
+import React from 'react'
+import { useAuth } from '../../authentication/useAuth'
+import { Outlet } from 'react-router-dom'
 
 
+function BabyDashboard({signOut}){
+  const session = JSON.parse(localStorage.getItem("supabase_session"))
 
-export default function Dashboard() {
-    const {state} = useContext(UserContext)
-    console.log(state.currentUser)
-    return (
-    <div>Congratulations!, Welcome to Dashboard 
-      <button onClick={signOutWithGoogle}>
+  console.log(session)
+
+  return (
+    <div>
+      Congratulations!, Welcome to Dashboard 
+      <button onClick={signOut}>
         Sign out
       </button>
     </div>
-  )
+    )
+}
+export default function Dashboard() {
+  const {signOut} = useAuth()
+  return <BabyDashboard signOut={signOut} />
+  
 }

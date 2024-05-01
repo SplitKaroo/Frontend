@@ -1,0 +1,27 @@
+.main-container {
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+}
+
+.form-container {
+    padding: 30px;
+    justify-content: center;
+}
+
+.form-container Button {
+    margin: 10px;
+}
+
+.form-container input {
+    margin: 10px;
+}
+
+.typeWriter {
+    margin: 10px;
+    font-weight: 600;
+    color: darkcyan;
+}

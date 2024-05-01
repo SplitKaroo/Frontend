@@ -1,25 +1,30 @@
 // ProtectedRoute.js
-import React, { useContext, useEffect, useState, useCallback } from 'react';
-import { Route, useNavigate ,Navigate  } from 'react-router-dom';
-import { UserContext } from '../contexts/UserContext';
-import Home from '../components/Home';
+import React, {useEffect, useState} from 'react';
+import { useAuth } from '../authentication/useAuth';
 
-const ProtectedRoute = ({ children}) => {
-  const {state} = useContext(UserContext)
-  const storedUser = JSON.parse(localStorage.getItem("userData"))
-  console.log(storedUser)
-  console.log(state)
-  if(storedUser && storedUser.authenticated){
+const ProtectedRoute = ({children}) => {
+  const {fetchData, userData, session} = useAuth()
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  useEffect(()=>{
+    async function fetchDataFromBackend(){
+      const supabase_session = JSON.parse(localStorage.getItem("supabase_session"))
+      console.log(supabase_session)
+      if(supabase_session && supabase_session.access_token){
+        console.log(supabase_session.access_token)
+        const {data,error} = await fetchData(supabase_session.access_token)
+        data.user.aud === "authenticated" && data.user.role === "authenticated" ? setIsAuthenticated(true) : setIsAuthenticated(false)
+      }
+    }
+    fetchDataFromBackend()
+  },[])
+
+  if(isAuthenticated){
     return children
   }
-  if(state.loading){
-    return <>Loading</>
+  else{
+    return <div>Loading</div>
   }
-    
-  if (!state.authenticated) {
-    return <Navigate to="/" replace />;
-  }
-  return children;
 };
 
 export default ProtectedRoute;
