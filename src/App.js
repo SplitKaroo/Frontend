@@ -1,33 +1,17 @@
-import React, { useContext } from 'react'
-import { Routes, Route, Outlet } from "react-router-dom";
+import React from 'react'
 import Dashboard from './components/dashboard/Dashboard';
-import Home from './components/Home';
+import Home from './components/home/Home';
 import ProtectedRoute from './routes/ProtectedRoute';
-import { UserContext, UserProvider } from './contexts/UserContext';
 import {
   createBrowserRouter,
   RouterProvider,
-  redirect,
 } from "react-router-dom";
+import Onboard from './components/onboard/Onboard';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-// const router = createBrowserRouter([
-//   {
-//     path: "/",
-//     element: <Home />
-//   },
-//   {
-//     path: "/dashboard",
-//     element:(
-//       <ProtectedRoute>
-//         <Dashboard />
-//       </ProtectedRoute>
-//     ) 
-//   }
-// ])
 
 export default function App() {
 
-  const { state } = useContext(UserContext)
   const router = createBrowserRouter([
     {
       path: "/",
@@ -37,12 +21,19 @@ export default function App() {
       path: "/dashboard",
       element: (
         <ProtectedRoute>
-          <Dashboard />
+          <Dashboard/>
         </ProtectedRoute>
-      ),
+      )
+    },
+    {
+      path: "/onboard",
+      element:(
+        <ProtectedRoute>
+          <Onboard/>
+        </ProtectedRoute>
+      )
     }
   ])
-  return (
-    <RouterProvider router={router} />
-  )
+    return <RouterProvider router={router} />
+  
 }
