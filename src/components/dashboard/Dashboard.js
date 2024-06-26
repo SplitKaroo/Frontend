@@ -1,6 +1,7 @@
 import React from 'react'
 import { useAuth } from '../../authentication/useAuth'
-import { Outlet } from 'react-router-dom'
+import Group from '../group/Group'
+import "../dashboard/Dashboard.css"
 
 
 function BabyDashboard({signOut}){
@@ -9,7 +10,7 @@ function BabyDashboard({signOut}){
   console.log(session)
 
   return (
-    <div>
+    <div className='font-sans hover:font-serif'>
       Congratulations!, Welcome to Dashboard 
       <button onClick={signOut}>
         Sign out
@@ -19,6 +20,15 @@ function BabyDashboard({signOut}){
 }
 export default function Dashboard() {
   const {signOut} = useAuth()
-  return <BabyDashboard signOut={signOut} />
+  return (
+    <div className='dashboard-container'>
+      <div className='dashboard-container-heading'>
+        <h2>My Dashboard 🪙</h2>
+      </div>
+      <div className=''>
+        <Group/>
+      </div>
+    </div>
+  )
   
 }

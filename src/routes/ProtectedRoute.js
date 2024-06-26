@@ -13,7 +13,7 @@ const ProtectedRoute = ({children}) => {
       if(supabase_session && supabase_session.access_token){
         console.log(supabase_session.access_token)
         const {data,error} = await fetchData(supabase_session.access_token)
-        data.user.aud === "authenticated" && data.user.role === "authenticated" ? setIsAuthenticated(true) : setIsAuthenticated(false)
+        data!=null && data.user!=null && data.user.aud === "authenticated" && data.user.role === "authenticated" ? setIsAuthenticated(true) : setIsAuthenticated(false)
       }
     }
     fetchDataFromBackend()

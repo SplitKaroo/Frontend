@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 import Onboard from './components/onboard/Onboard';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import "../src/App.css"
 
 export default function App() {
 

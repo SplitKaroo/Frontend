@@ -10,17 +10,17 @@ import { useNavigate } from "react-router-dom"
 export default function Home() {
   const { signIn, isLoading, session } = useAuth()
   const navigate = useNavigate()
-  useEffect(()=>{
-    const loginUser = async ()=>{
-      if(session && session.access_token){
+  useEffect(() => {
+    const loginUser = async () => {
+      if (session && session.access_token) {
         try {
-          const authorizationHeader = {headers: {'Authorization' : `Bearer ${session.access_token}`}}
+          const authorizationHeader = { headers: { 'Authorization': `Bearer ${session.access_token}` } }
           const response = await axios.get("http://localhost:3030/loginUser", authorizationHeader)
           console.log(response.data)
-          if(response.data && response.data.doesUserExist){
+          if (response.data && response.data.doesUserExist) {
             navigate("/dashboard")
           }
-          if(response.data && !response.data.doesUserExist){
+          if (response.data && !response.data.doesUserExist) {
             navigate("/onboard")
           }
         } catch (error) {
@@ -30,7 +30,7 @@ export default function Home() {
     }
     loginUser()
 
-  },[session])
+  }, [session])
 
   const handleGetStarted = async () => {
     await signIn()

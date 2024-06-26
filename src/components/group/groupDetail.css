@@ -1,0 +1,65 @@
+.group-detail-card ul {
+    height: 15em;
+    width: 30em;
+    overflow-y: auto;
+    border: 1px solid rgba(255, 0, 0, 0.116);
+    border-top: 5px solid peru;
+    border-radius: 5px;
+}
+
+.group-list-container {
+    margin: 3px;
+}
+
+.group-detail-card h3 {
+    text-align: left;
+    margin-top: 5px;
+}
+
+.group-detail-card ul::-webkit-scrollbar {
+    width: 0px;
+    /* Hide scrollbar width */
+    background-color: transparent;
+    /* Set background to transparent */
+}
+
+.group-list {
+    padding: 0;
+    /* Remove default padding for cleaner appearance */
+    margin: 0;
+    /* Remove default margin for cleaner appearance */
+    list-style: none;
+}
+
+.group-list li {
+    font-size: 18px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.group-list li:not(:first-child):hover {
+    border-radius: 5px;
+    background-color: palegoldenrod;
+}
+
+.group-list li:first-child {
+    background-color: palegoldenrod;
+    font-weight: bold;
+    border-radius: 5px;
+    font-size: 21px;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    padding-top: 1px;
+}
+
+.group-detail-card-item {
+    color: peru;
+    display: flex;
+    justify-content: space-between;
+    margin: 5px;
+}
+
+.group-create-card {
+    text-align: center;
+}
