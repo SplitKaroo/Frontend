@@ -9,6 +9,7 @@
 
 .group-list-container {
     margin: 3px;
+    width: 30em;
 }
 
 .group-detail-card h3 {
@@ -25,9 +26,7 @@
 
 .group-list {
     padding: 0;
-    /* Remove default padding for cleaner appearance */
     margin: 0;
-    /* Remove default margin for cleaner appearance */
     list-style: none;
 }
 
@@ -62,4 +61,10 @@
 
 .group-create-card {
     text-align: center;
+}
+
+.group-detail-card-item-creator-and-add-btn {
+    display: flex;
+    grid-column-gap: 15px;
+    align-items: center;
 }

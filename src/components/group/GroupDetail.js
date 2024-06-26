@@ -1,17 +1,31 @@
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
+import Modal from 'react-bootstrap/Modal';
+
 import axios from 'axios';
 import "../group/groupDetail.css"
 import Typewriter from 'typewriter-effect'
 import GroupCreation from './GroupCreation';
+import { lazy } from 'react';
+const GroupAddition = lazy(() => import('./GroupAddition'))
 
 
 const session = JSON.parse(localStorage.getItem("supabase_session"))
 
-function GroupItem({ groupDetail }) {
+function GroupItem({ groupDetail, show, setShow, listItemId}) {
+  const isActive = listItemId===show
   return (
     <div className='group-detail-card-item'>
       <p>{groupDetail.groupName}</p>
-      <p>{groupDetail.creatorName}</p>
+      <div className='group-detail-card-item-creator-and-add-btn'>
+        <p>{groupDetail.creatorName}</p>
+        {!isActive && <button onClick={() => setShow(listItemId)}>Add</button>}
+        {isActive && <Suspense fallback={"wait.."}>
+          <div>
+            <GroupAddition groupDetail={groupDetail} />
+            <button onClick={() => setShow(null)}>❌</button>
+          </div>
+        </Suspense>}
+      </div>
     </div>
   )
 
@@ -21,7 +35,7 @@ export default function GroupDetail() {
   const [relatedGroups, setRelatedGroups] = useState([])
   const [session, setSession] = useState(null)
   const [loading, setLoading] = useState(true)
-
+  const [show, setShow] = useState(null)
   useEffect(() => {
     const storedSession = JSON.parse(localStorage.getItem("supabase_session"))
     setSession(storedSession)
@@ -104,7 +118,7 @@ export default function GroupDetail() {
           </li>
           {relatedGroups.length > 0 ? (
             relatedGroups.map((value, index) => (
-              <li key={index} onClick={openModal}><GroupItem groupDetail={value} /></li>
+              <li key={index}><GroupItem groupDetail={value} show={show} setShow={setShow} listItemId={index}/></li>
             ))
           ) : (
             <p>No groups found</p>
@@ -112,8 +126,9 @@ export default function GroupDetail() {
         </ul>
       </div>
       <div className='group-create-card'>
-        <GroupCreation/>
+        <GroupCreation />
       </div>
+
     </div>
   )
 }
