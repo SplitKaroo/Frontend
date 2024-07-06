@@ -1,11 +1,7 @@
 body {
     background: #9CECFB;
-    /* fallback for old browsers */
     background: -webkit-linear-gradient(to left, #0052D4, #65C7F7, #9CECFB);
-    /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to left, #0052D4, #2ECC71, #9CECFB);
-    /* Green instead of light blue */
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     margin: 0;
     padding: 0;
 }
@@ -27,6 +23,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    overflow: hidden;
 }
 
 .siginin-signup-container {

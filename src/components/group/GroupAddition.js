@@ -69,7 +69,15 @@ export default function GroupAddition({groupDetail}) {
             toast.promise(
                 axios.post("http://localhost:3030/groups/addUserToGroup", data, config),
                 {
-                    success: "Member added to the group",
+                    success: {
+                        render({data}){
+                            if(data.data === "User already part of group"){
+                                return "Member already exist in the group"
+                            }else{
+                                return "Member added in the group"
+                            }
+                        }
+                    },
                     error: "Member could not be added",
                     pending: "Adding member"
                 }

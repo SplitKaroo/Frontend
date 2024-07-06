@@ -1,17 +1,14 @@
-import React, { Suspense } from 'react'
-import GroupList from './GroupList'
-import GroupDetail from './GroupDetail'
-import GroupCreation from './GroupCreation'
-import "../group/group.css"
-import { lazy } from 'react'
+import React, { Suspense, useEffect } from "react";
+import GroupDetail from "./GroupDetail";
+import "../group/group.css";
+import { lazy } from "react";
 
-const GroupAddition = lazy(()=>import('./GroupAddition'))
+const GroupAddition = lazy(() => import("./GroupAddition"));
 
-export default function Group() {
-  
+export default function Group(props) {
   return (
-    <div className='group-container'>
-        <GroupDetail/>
+    <div className="group-container">
+      <GroupDetail {...props} />
     </div>
-  )
+  );
 }
