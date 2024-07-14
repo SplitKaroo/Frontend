@@ -7,6 +7,8 @@ export default function Transaction() {
   const [activeComponent, setActiveComponent] = useState("Expense");
   const [session, setSession] = useState(null);
   const [friendList, setFriendList] = useState([]);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [shouldRender, setShouldRender] = useState(false);
 
   useEffect(() => {
     setSession(JSON.parse(localStorage.getItem("supabase_session")));
@@ -31,13 +33,35 @@ export default function Transaction() {
         .catch((err) => {
           console.error(err);
         });
+
+      axios
+        .get("http://localhost:3030/getUserByEmail", config)
+        .then((response) => {
+          setCurrentUser(response.data);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     }
   }, [session]);
+
+  useEffect(() => {
+    if (currentUser != null) {
+      setShouldRender(true);
+    }
+  }, [currentUser]);
 
   const renderComponent = () => {
     switch (activeComponent) {
       case "Expense":
-        return <Expense groupName="" groupCreator="" memberList={friendList} />;
+        return (
+          <Expense
+            groupName=""
+            groupCreator=""
+            memberList={friendList}
+            currentUser={currentUser}
+          />
+        );
       case "History":
         return <History />;
     }
@@ -52,7 +76,9 @@ export default function Transaction() {
           Show History
         </a>
       </div>
-      <div className="transaction-container-child">{renderComponent()}</div>
+      <div className="transaction-container-child">
+        {currentUser && renderComponent()}
+      </div>
     </div>
   );
 }
