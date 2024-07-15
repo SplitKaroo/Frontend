@@ -236,6 +236,10 @@ export default function Expense(props) {
     updateUserShares();
   }, [totalAmount]);
 
+  useEffect(() => {
+    console.log(props.groupName);
+    console.log(props.groupCreator);
+  }, []);
   return (
     <div className="expense-container">
       <div className="expense-form">

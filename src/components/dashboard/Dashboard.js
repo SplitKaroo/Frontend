@@ -10,6 +10,10 @@ export default function Dashboard() {
   const [activeComponent, setActiveComponent] = useState("Transactions");
   const [session, setSession] = useState(null);
   const [relatedGroups, setRelatedGroups] = useState([]);
+  const [groupDetail, setGroupDetail] = useState({
+    groupName: "",
+    creatorName: "",
+  });
   var userData = null;
   var config = null;
   useEffect(() => {
@@ -64,14 +68,31 @@ export default function Dashboard() {
     }
   };
 
+  const goToTransactionFromGroup = (groupName, creatorName) => {
+    setGroupDetail({ groupName: groupName, creatorName: creatorName });
+    setActiveComponent("Transactions");
+  };
+
+  const handleSetActiveComponent = (component) => {
+    if (component != "Transactions") {
+      setGroupDetail({ groupName: "", creatorName: "" });
+    }
+    setActiveComponent(component);
+  };
+
   const renderComponent = () => {
     switch (activeComponent) {
       case "Transactions":
-        return <Transaction />;
+        return <Transaction groupDetail={groupDetail} />;
       case "Friends":
         return <Friend />;
       case "Groups":
-        return <Group relatedGroups={relatedGroups} />;
+        return (
+          <Group
+            relatedGroups={relatedGroups}
+            goToTransactionFromGroup={goToTransactionFromGroup}
+          />
+        );
     }
   };
 
@@ -82,7 +103,7 @@ export default function Dashboard() {
       </div>
       <div className="menu-item">{renderComponent()}</div>
       <div className="footer-container">
-        <Menu setActiveComponent={setActiveComponent} />
+        <Menu setActiveComponent={handleSetActiveComponent} />
       </div>
     </div>
   );

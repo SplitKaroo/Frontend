@@ -3,7 +3,7 @@ import Expense from "../expense/Expense";
 import History from "../history/History";
 import axios from "axios";
 
-export default function Transaction() {
+export default function Transaction(props) {
   const [activeComponent, setActiveComponent] = useState("Expense");
   const [session, setSession] = useState(null);
   const [friendList, setFriendList] = useState([]);
@@ -56,8 +56,8 @@ export default function Transaction() {
       case "Expense":
         return (
           <Expense
-            groupName=""
-            groupCreator=""
+            groupName={props.groupDetail.groupName}
+            groupCreator={props.groupDetail.creatorName}
             memberList={friendList}
             currentUser={currentUser}
           />

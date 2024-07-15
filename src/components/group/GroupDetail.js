@@ -1,18 +1,27 @@
 import React, { Suspense, useEffect, useState } from "react";
-import Modal from "react-bootstrap/Modal";
-
-import axios from "axios";
 import "../group/groupDetail.css";
-import Typewriter from "typewriter-effect";
+
 import GroupCreation from "./GroupCreation";
 import { lazy } from "react";
 const GroupAddition = lazy(() => import("./GroupAddition"));
 
-function GroupItem({ groupDetail, show, setShow, listItemId }) {
+function GroupItem({
+  groupDetail,
+  show,
+  setShow,
+  listItemId,
+  goToTransactionPage,
+}) {
   const isActive = listItemId === show;
   return (
     <div className="group-detail-card-item">
-      <p>{groupDetail.groupName}</p>
+      <p
+        onClick={() =>
+          goToTransactionPage(groupDetail.groupName, groupDetail.creatorName)
+        }
+      >
+        {groupDetail.groupName}
+      </p>
       <div className="group-detail-card-item-creator-and-add-btn">
         <p>{groupDetail.creatorName}</p>
         {!isActive && <button onClick={() => setShow(listItemId)}>Add</button>}
@@ -50,6 +59,7 @@ export default function GroupDetail(props) {
                   show={show}
                   setShow={setShow}
                   listItemId={index}
+                  goToTransactionPage={props.goToTransactionFromGroup}
                 />
               </li>
             ))
