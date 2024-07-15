@@ -10,6 +10,32 @@ export default function Transaction(props) {
   const [currentUser, setCurrentUser] = useState(null);
   const [shouldRender, setShouldRender] = useState(false);
 
+  const getFriendsList = (config) => {
+    axios
+      .get("http://localhost:3030/getAllFriend", config)
+      .then((response) => {
+        setFriendList(response.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  const getGroupMembers = (groupName, groupCreatorName, config) => {
+    let groupData = {
+      groupName: groupName,
+      groupCreatorName: groupCreatorName,
+    };
+    axios
+      .post("http://localhost:3030/groups/getGroupMembers", groupData, config)
+      .then((response) => {
+        setFriendList(response.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
   useEffect(() => {
     setSession(JSON.parse(localStorage.getItem("supabase_session")));
   }, []);
@@ -22,17 +48,23 @@ export default function Transaction(props) {
     ) {
       const config = {
         headers: {
-          Authorization: `Bearer ${session.access_token}`,
+          authorization: `Bearer ${session.access_token}`,
         },
       };
-      axios
-        .get("http://localhost:3030/getAllFriend", config)
-        .then((response) => {
-          setFriendList(response.data);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+
+      if (
+        props.groupDetail.groupName.length <= 0 ||
+        props.groupDetail.creatorName.length <= 0
+      ) {
+        getFriendsList(config);
+      } else {
+        console.log(config);
+        getGroupMembers(
+          props.groupDetail.groupName,
+          props.groupDetail.creatorName,
+          config
+        );
+      }
 
       axios
         .get("http://localhost:3030/getUserByEmail", config)
