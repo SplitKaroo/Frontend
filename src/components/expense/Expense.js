@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { addExpenseUtility } from "./ExpenseUtil";
 
 function ExpenseUserListItem(props) {
   return (
@@ -44,7 +45,7 @@ export default function Expense(props) {
   const expenseTypeList = ["EQUAL", "PERCENT", "EXACT"];
 
   const [remainingAmountToSubmit, setRemainingAmountToSubmit] = useState(0);
-  const [payeeName, setPayeeName] = useState("");
+  const [payeeName, setPayeeName] = useState(props.currentUser);
   const [isPayedByYou, setIsPayedByYou] = useState(true);
   const [expenseParticipant, setExpenseParticipant] = useState("");
   const [userShareList, setUserShareList] = useState([
@@ -56,7 +57,7 @@ export default function Expense(props) {
   ]);
   const [expenseType, setExpenseType] = useState(expenseTypeList[0]);
   const [totalAmount, setTotalAmount] = useState(0);
-
+  const expenseNameRef = useRef("");
   const removeExpenseParticipant = (toBeRemoved) => {
     let editedList = userShareList.filter(
       (userShare) => userShare.member != toBeRemoved
@@ -236,15 +237,25 @@ export default function Expense(props) {
     updateUserShares();
   }, [totalAmount]);
 
-  useEffect(() => {
-    console.log(props.groupName);
-    console.log(props.groupCreator);
-  }, []);
+  const addExpense = (event) => {
+    event.preventDefault();
+    addExpenseUtility(
+      expenseNameRef.current.value,
+      expenseType,
+      totalAmount,
+      payeeName,
+      userShareList,
+      props.groupName,
+      props.groupCreator,
+      props.session
+    );
+  };
+
   return (
     <div className="expense-container">
       <div className="expense-form">
-        <form id="expense-form">
-          <input type="text" placeholder="Expense name" />
+        <form id="expense-form" onSubmit={addExpense}>
+          <input type="text" placeholder="Expense name" ref={expenseNameRef} />
           <input
             type="number"
             placeholder="Total amount"
@@ -271,6 +282,11 @@ export default function Expense(props) {
                   checked={isPayedByYou}
                   onChange={(e) => {
                     setIsPayedByYou(e.target.checked);
+                    if (e.target.checked) {
+                      setPayeeName(props.currentUser);
+                    } else {
+                      setPayeeName("");
+                    }
                   }}
                 />
                 Did you pay?
@@ -389,6 +405,7 @@ export default function Expense(props) {
               )}
             </div>
           )}
+          {totalAmount != 0 && <button type="submit">Add expense</button>}
         </form>
       </div>
     </div>

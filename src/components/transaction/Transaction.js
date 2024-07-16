@@ -8,7 +8,6 @@ export default function Transaction(props) {
   const [session, setSession] = useState(null);
   const [friendList, setFriendList] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
-  const [shouldRender, setShouldRender] = useState(false);
 
   const getFriendsList = (config) => {
     axios
@@ -77,12 +76,6 @@ export default function Transaction(props) {
     }
   }, [session]);
 
-  useEffect(() => {
-    if (currentUser != null) {
-      setShouldRender(true);
-    }
-  }, [currentUser]);
-
   const renderComponent = () => {
     switch (activeComponent) {
       case "Expense":
@@ -92,6 +85,7 @@ export default function Transaction(props) {
             groupCreator={props.groupDetail.creatorName}
             memberList={friendList}
             currentUser={currentUser}
+            session={session}
           />
         );
       case "History":
