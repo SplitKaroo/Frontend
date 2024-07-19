@@ -241,8 +241,8 @@ export default function Expense(props) {
     event.preventDefault();
     addExpenseUtility(
       expenseNameRef.current.value,
-      expenseType,
       totalAmount,
+      expenseType,
       payeeName,
       userShareList,
       props.groupName,

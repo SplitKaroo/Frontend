@@ -28,7 +28,7 @@ export function addExpenseUtility(
     axios
       .post("http://localhost:3030/addExpense", expenseData, config)
       .then((res) => {
-        console.log(res.data);
+        console.log(res);
       })
       .catch((error) => {
         console.log(error);
