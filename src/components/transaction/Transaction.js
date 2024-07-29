@@ -89,7 +89,7 @@ export default function Transaction(props) {
           />
         );
       case "History":
-        return <History session={session} />;
+        return <History session={session} currentUser={currentUser} />;
     }
   };
   return (
